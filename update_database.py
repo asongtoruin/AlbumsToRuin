@@ -35,12 +35,13 @@ errors = ad.count_records(status='error')
 # there are library issues (e.g. GPIO permissions)
 try:
     from inky import InkyPHAT
-    from .dashboard import draw_dashboard
+    from dashboard import draw_dashboard
 
     inky_display = InkyPHAT('red')
 
     img = draw_dashboard(queue, completed, errors)
 
     inky_display.set_image(img.rotate(180))
+    inky_display.show()
 finally:
     pass
