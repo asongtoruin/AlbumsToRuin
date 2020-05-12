@@ -1,9 +1,6 @@
-from datetime import datetime
-
 from colour_puller.database import AlbumDatabase
 from tweetbot import TweetBot
 
-print(datetime.now())
 
 ad = AlbumDatabase()
 
@@ -12,7 +9,9 @@ album = ad.get_from_queue()
 try:
     ad.update_album(album, status='processing')
 
-    original, revised, palette = album.get_images()
+    original, revised, palette = album.get_images(
+        get_kwargs=dict(silhouette_mode='sample', sample_size=5000, n_samples=5)
+    )
     colour_codes = ', '.join(album.album_palette.hex_colours)
 
     tb = TweetBot(
@@ -35,4 +34,4 @@ try:
     ad.update_album(album, status='completed')
 
 except:
-    ad.update_album(album, status='processing')
+    ad.update_album(album, status='error')
